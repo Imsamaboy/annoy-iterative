@@ -995,29 +995,35 @@ public:
   }
 
   void load_json_config() {
-      std::ifstream file("config.json");
-      if (!file.is_open()) {
-          std::cout << "Ошибка при открытии файла." << std::endl;
-      }
+      try {
+          std::ifstream file("config.json");
+          if (!file.is_open()) {
+              std::cout << "Ошибка при открытии файла." << std::endl;
+          }
 
-      std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-      file.close();
+          std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+          file.close();
 
-      json config = json::parse(fileContent);
+          json config = json::parse(fileContent);
 
 
-      std::string methodName = config["method"]["name"];
-      _splitting_method = -1; // Значение по умолчанию
-      std::map<std::string, int> methodMap = {
-              {"two_means", 0},
-              {"find_two_furthest_points_naive", 1},
-              {"find_two_furthest_points_iterative", 2}
-      };
-      _splitting_method = methodMap[methodName];
+          std::string methodName = config["method"]["name"];
+          _splitting_method = -1; // Значение по умолчанию
+          std::map<std::string, int> methodMap = {
+                  {"two_means", 0},
+                  {"find_two_furthest_points_naive", 1},
+                  {"find_two_furthest_points_iterative", 2}
+          };
+          _splitting_method = methodMap[methodName];
 
-      _method_iterations = 200; // Значение по умолчанию
-      if (!config["method"]["iterations"].is_null()) {
-          _method_iterations = config["method"]["iterations"];
+          _method_iterations = 200; // Значение по умолчанию
+          if (!config["method"]["iterations"].is_null()) {
+              _method_iterations = config["method"]["iterations"].get<int>();;
+          }
+      } catch (const std::exception& e) {
+          std::cout << "Произошла ошибка при чтении config.json: " << e.what() << std::endl;
+          _splitting_method = 0;
+          _method_iterations = 200;
       }
   }
 
