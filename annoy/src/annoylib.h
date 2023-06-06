@@ -995,7 +995,7 @@ public:
 
   void load_json_config() {
       try {
-          std::ifstream file("config.json");
+          std::ifstream file("annoy/src/config.json");
           if (!file.is_open()) {
               std::cout << "Ошибка при открытии файла." << std::endl;
           }
