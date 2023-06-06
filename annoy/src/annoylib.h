@@ -986,7 +986,6 @@ public:
     load_json_config();
   }
   ~AnnoyIndex() {
-    load_json_config();
     unload();
   }
 
