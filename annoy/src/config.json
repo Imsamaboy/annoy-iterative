@@ -1,6 +1,6 @@
 {
   "method": {
-      "name": "find_two_furthest_points_naive",
+      "name": "find_two_furthest_points_iterative",
       "iterations": null
   }
 }
